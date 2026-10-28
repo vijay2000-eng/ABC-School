@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#182b4b">
+<title>ABC School | Management Dashboard</title>
+<style>
+  :root {
+    --navy:#182b4b; --navy-2:#213a61; --blue:#4169e1; --blue-light:#edf1ff;
+    --teal:#16a6a1; --teal-light:#e5f8f6; --gold:#f2b84b; --gold-light:#fff5de;
+    --green:#27946b; --green-light:#e7f7ef; --red:#d94f61; --red-light:#fff0f1;
+    --ink:#25344d; --muted:#78859a; --line:#e7ebf2; --paper:#f5f7fb; --white:#fff;
+    --shadow:0 12px 34px rgba(27,49,84,.07); --radius:18px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--paper);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);font-size:14px}
+  button,input,select{font:inherit} button{cursor:pointer}
+  .app{display:grid;grid-template-columns:250px minmax(0,1fr);min-height:100vh}
+  .sidebar{background:var(--navy);color:#cbd5e8;padding:24px 16px;display:flex;flex-direction:column;gap:28px}
+  .brand{display:flex;align-items:center;gap:12px;padding:0 10px;color:#fff}
+  .brand-mark{width:42px;height:42px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(140deg,#ffdc8b,#f2b84b);color:#173052;font-size:21px;font-weight:900;box-shadow:0 5px 16px #101d3490}
+  .brand-name{font-size:17px;font-weight:800;letter-spacing:.02em}.brand-sub{display:block;font-size:10px;color:#9eacc5;font-weight:600;letter-spacing:.17em;margin-top:3px}
+  .nav-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#7f91b1;font-weight:800;padding:0 13px;margin-bottom:8px}
+  .nav-group{display:grid;gap:5px}
+  .nav-item{border:0;color:#b8c5db;background:transparent;display:flex;gap:13px;align-items:center;text-align:left;padding:12px 13px;border-radius:12px;width:100%;transition:.18s}
+  .nav-item:hover{background:#ffffff10;color:white}.nav-item.active{background:#4267d5;color:white;box-shadow:0 7px 18px #111d4260}
+  .nav-icon{width:19px;text-align:center;font-size:16px}.nav-badge{margin-left:auto;font-size:10px;background:#ed9b57;color:#fff;padding:3px 7px;border-radius:20px;font-weight:800}
+  .side-bottom{margin-top:auto;border-top:1px solid #ffffff1c;padding:18px 8px 0}.school-switch{display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;background:#ffffff0d}.school-avatar{width:35px;height:35px;border-radius:11px;background:#e9f3ff;color:#284a7c;font-weight:900;display:grid;place-items:center}.school-meta{min-width:0}.school-meta b{display:block;color:white;font-size:12px}.school-meta span{display:block;color:#98a9c5;font-size:10px;margin-top:4px}
+  .main{min-width:0}.topbar{height:78px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:18px;padding:0 34px;position:sticky;top:0;z-index:10}
+  .crumb{font-size:12px;color:var(--muted);margin-bottom:4px}.topbar h1{font-size:20px;margin:0;color:var(--navy);letter-spacing:-.03em}.top-actions{display:flex;align-items:center;gap:12px}.icon-btn{width:39px;height:39px;border:1px solid var(--line);background:#fff;border-radius:12px;color:#64718a;position:relative}.dot{position:absolute;width:7px;height:7px;background:var(--red);border:2px solid white;border-radius:50%;right:8px;top:7px}.profile{display:flex;gap:10px;align-items:center;border-left:1px solid var(--line);padding-left:17px}.avatar{width:38px;height:38px;display:grid;place-items:center;background:#dce7ff;color:#3157bd;border-radius:13px;font-weight:800}.profile b{font-size:12px;display:block}.profile span{font-size:11px;color:var(--muted);display:block;margin-top:3px}
+  .content{padding:28px 34px 40px;max-width:1600px;margin:0 auto}.welcome{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:23px}.welcome h2{font-size:25px;color:var(--navy);letter-spacing:-.04em;margin:0 0 7px}.welcome p{margin:0;color:var(--muted)}.welcome-actions{display:flex;gap:10px;align-items:center}.date-chip{background:#fff;border:1px solid var(--line);padding:10px 13px;border-radius:11px;color:#65728a;font-size:12px;white-space:nowrap}
+  .btn{border:0;background:var(--blue);color:#fff;border-radius:11px;padding:11px 15px;font-weight:750;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 14px #4169e124;transition:transform .15s,filter .15s}.btn:hover{transform:translateY(-1px);filter:brightness(1.04)}.btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn.small{padding:8px 11px;font-size:12px;border-radius:9px}.btn:focus-visible,.nav-item:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #aabaff;outline-offset:2px}
+  .stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px;margin-bottom:20px}.stat-card{background:#fff;border:1px solid #e9edf4;border-radius:var(--radius);padding:20px;box-shadow:0 5px 20px #203d6a05;min-width:0}.stat-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.stat-label{color:var(--muted);font-weight:650;font-size:12px}.stat-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;font-size:18px}.ic-blue{background:var(--blue-light)}.ic-teal{background:var(--teal-light)}.ic-gold{background:var(--gold-light)}.ic-green{background:var(--green-light)}.stat-value{font-size:29px;line-height:1.1;font-weight:850;color:var(--navy);letter-spacing:-.04em}.stat-foot{margin-top:12px;font-size:11px;color:var(--muted);display:flex;align-items:center;gap:6px}.up{color:var(--green);font-weight:800}.down{color:var(--red);font-weight:800}
+  .dashboard-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(280px,1fr);gap:18px;margin-bottom:20px}.panel{background:#fff;border:1px solid #e9edf4;border-radius:var(--radius);box-shadow:0 5px 20px #203d6a05;min-width:0}.panel-header{padding:20px 21px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:15px}.panel-title{font-size:15px;font-weight:800;color:var(--navy);margin:0}.panel-subtitle{color:var(--muted);font-size:11px;margin-top:5px}.select-small{border:1px solid var(--line);border-radius:9px;padding:8px 10px;background:#fff;color:#67758a;font-size:11px}.chart-wrap{padding:12px 18px 16px}.chart-legend{display:flex;gap:17px;align-items:center;padding:0 7px 8px;color:var(--muted);font-size:11px}.legend-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px}.chart{width:100%;height:auto;display:block}.chart text{font-family:inherit;fill:#8793a7;font-size:10px}.chart .gridline{stroke:#edf0f5;stroke-width:1}.chart .line-a{fill:none;stroke:#4169e1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round}.chart .line-b{fill:none;stroke:#16a6a1;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:4 4}.chart .area{fill:url(#areaFill)}
+  .attendance-summary{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:0 21px 20px}.mini-stat{padding:12px;background:#f8faff;border-radius:12px}.mini-stat span{font-size:11px;color:var(--muted);display:block}.mini-stat b{display:block;color:var(--navy);font-size:18px;margin-top:5px}.mini-stat em{font-size:10px;color:var(--green);font-style:normal;margin-left:5px}
+  .schedule-list{padding:14px 20px 20px;display:grid;gap:0}.schedule-item{display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid #f0f2f6}.schedule-item:last-child{border-bottom:0}.schedule-time{font-size:11px;color:var(--muted);font-weight:750}.schedule-mark{width:42px;height:42px;display:grid;place-items:center;background:#f0f4ff;border-radius:13px;font-size:17px}.schedule-info{min-width:0}.schedule-info b{font-size:12px;display:block;color:var(--ink)}.schedule-info span{font-size:10px;color:var(--muted);display:block;margin-top:4px}.pill{display:inline-flex;align-items:center;padding:5px 8px;border-radius:20px;font-size:10px;font-weight:800;white-space:nowrap}.pill.green{background:var(--green-light);color:var(--green)}.pill.gold{background:var(--gold-light);color:#a46a08}.pill.blue{background:var(--blue-light);color:#4462c1}.pill.red{background:var(--red-light);color:var(--red)}
+  .table-panel{overflow:hidden}.table-tools{padding:18px 21px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.table-title-wrap h3{margin:0;color:var(--navy);font-size:15px}.table-title-wrap p{margin:5px 0 0;color:var(--muted);font-size:11px}.tools-right{display:flex;gap:9px;flex-wrap:wrap}.search-box{position:relative}.search-box span{position:absolute;left:11px;top:9px;color:#8b96a8}.search-box input{width:210px;padding:9px 11px 9px 32px;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;font-size:12px;outline:none}.filter-select{border:1px solid var(--line);border-radius:10px;padding:9px 10px;color:#64718a;background:#fff;font-size:12px}
+  .table-scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:720px}thead{background:#fafbfd}th{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:#8b96a8;font-weight:800;text-align:left;padding:12px 20px;border-top:1px solid #f0f2f6;border-bottom:1px solid #f0f2f6}td{padding:15px 20px;border-bottom:1px solid #f0f2f6;font-size:12px;white-space:nowrap}tbody tr:hover{background:#fbfcff}.student-cell{display:flex;align-items:center;gap:10px}.student-avatar{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;font-weight:850;font-size:11px;background:#e5ebff;color:#4264c1}.student-name b{display:block;color:#2a3850;font-size:12px}.student-name span{display:block;color:#8a95a7;font-size:10px;margin-top:3px}.attendance-bar{width:65px;height:6px;border-radius:10px;background:#edf0f5;display:inline-block;vertical-align:middle;margin-right:7px;overflow:hidden}.attendance-bar span{display:block;height:100%;border-radius:10px;background:var(--teal)}.row-action{border:0;background:transparent;color:#718099;font-weight:900;padding:5px 8px;border-radius:7px}.row-action:hover{background:#eff3ff;color:var(--blue)}.table-footer{padding:14px 21px;display:flex;justify-content:space-between;align-items:center;gap:12px;color:var(--muted);font-size:11px}.pagination{display:flex;gap:6px}.page-btn{border:1px solid var(--line);background:white;color:#718099;border-radius:8px;width:29px;height:29px}.page-btn.active{background:var(--blue);color:white;border-color:var(--blue)}.empty-state{padding:35px;text-align:center;color:var(--muted)}
+  .toast{position:fixed;right:22px;bottom:22px;z-index:50;background:#1e3353;color:#fff;border-radius:13px;padding:14px 18px;box-shadow:0 10px 30px #0a1b3833;display:none;max-width:340px}.toast.show{display:block;animation:pop .2s ease-out}.toast strong{display:block;font-size:13px;margin-bottom:4px}.toast span{font-size:11px;color:#cbd6e8}.modal-backdrop{position:fixed;inset:0;background:#0e1c32a6;z-index:40;display:none;align-items:center;justify-content:center;padding:18px}.modal-backdrop.open{display:flex}.modal{width:min(530px,100%);background:#fff;border-radius:20px;box-shadow:0 25px 80px #07172f55;overflow:hidden}.modal-head{padding:22px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modal-head h2{margin:0;font-size:18px;color:var(--navy)}.modal-close{border:0;background:#f1f4f8;width:32px;height:32px;border-radius:9px;color:#52627a;font-size:18px}.modal-form{padding:22px 24px 24px;display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:grid;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:11px;font-weight:800;color:#5f6e83}.field input,.field select{border:1px solid #dfe5ee;border-radius:10px;padding:11px;color:var(--ink);background:white}.modal-actions{grid-column:1/-1;display:flex;justify-content:flex-end;gap:9px;margin-top:4px}.section-view{display:none}.section-view.active{display:block}.coming-soon{padding:60px 20px;text-align:center}.coming-soon .big-icon{font-size:44px;margin-bottom:16px}.coming-soon h2{margin:0 0 8px;color:var(--navy)}.coming-soon p{color:var(--muted);max-width:500px;margin:0 auto 20px}.mobile-menu{display:none}
+  @keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+  @media(max-width:1150px){.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.dashboard-grid{grid-template-columns:1fr}.content{padding:24px}}
+  @media(max-width:760px){.app{grid-template-columns:1fr}.sidebar{display:none}.topbar{padding:0 18px;height:70px}.content{padding:22px 16px 34px}.profile .profile-meta{display:none}.welcome{align-items:flex-start;flex-direction:column}.welcome-actions{width:100%;flex-wrap:wrap}.date-chip{display:none}.stat-grid{gap:10px}.stat-card{padding:16px}.stat-value{font-size:25px}.table-tools{align-items:flex-start}.search-box input{width:min(210px,48vw)}.table-footer{align-items:flex-start;flex-direction:column}.modal-form{grid-template-columns:1fr}.field.full,.modal-actions{grid-column:auto}.topbar h1{font-size:17px}.crumb{font-size:10px}.mobile-menu{display:inline-flex}.top-actions{gap:7px}}
+  @media(max-width:430px){.stat-grid{grid-template-columns:1fr 1fr}.stat-value{font-size:22px}.stat-card{padding:13px}.stat-head{margin-bottom:12px}.stat-icon{width:34px;height:34px}.attendance-summary{padding:0 14px 16px}.panel-header{padding:17px 15px 0}.schedule-list{padding:12px 15px 15px}.search-box input{width:100%}.tools-right{width:100%}.search-box{flex:1}.filter-select{max-width:125px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-mark">A</div><div class="brand-name">ABC SCHOOL<span class="brand-sub">MANAGEMENT PORTAL</span></div></div>
+    <div>
+      <div class="nav-label">Workspace</div>
+      <nav class="nav-group" aria-label="Main navigation">
+        <button class="nav-item active" data-view="overview"><span class="nav-icon">▦</span> Overview</button>
+        <button class="nav-item" data-view="students"><span class="nav-icon">♙</span> Students <span class="nav-badge" id="navStudentCount">248</span></button>
+        <button class="nav-item" data-view="attendance"><span class="nav-icon">◷</span> Attendance</button>
+        <button class="nav-item" data-view="academics"><span class="nav-icon">▤</span> Academics</button>
+        <button class="nav-item" data-view="fees"><span class="nav-icon">₹</span> Fees & Payments</button>
+      </nav>
+    </div>
+    <div>
+      <div class="nav-label">Administration</div>
+      <nav class="nav-group" aria-label="Administration navigation">
+        <button class="nav-item" data-view="staff"><span class="nav-icon">♧</span> Staff</button>
+        <button class="nav-item" data-view="reports"><span class="nav-icon">▥</span> Reports & Analytics</button>
+        <button class="nav-item" data-view="settings"><span class="nav-icon">⚙</span> Settings</button>
+      </nav>
+    </div>
+    <div class="side-bottom">
+      <div class="school-switch"><div class="school-avatar">AB</div><div class="school-meta"><b>ABC School, Main Campus</b><span>Administrator workspace</span></div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><div class="crumb">School Management / <span id="crumbText">Overview</span></div><h1 id="pageTitle">Dashboard overview</h1></div>
+      <div class="top-actions">
+        <button class="icon-btn" id="themeBtn" title="Toggle display theme" aria-label="Toggle display theme">☼</button>
+        <button class="icon-btn" id="notificationBtn" title="Notifications" aria-label="Notifications">♧<span class="dot"></span></button>
+        <div class="profile"><div class="avatar">VK</div><div class="profile-meta"><b>Vijay Kumar</b><span>School Administrator</span></div></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="section-view active" id="view-overview">
+        <div class="welcome">
+          <div><h2>Good morning, Vijay 👋</h2><p>Here's what's happening at ABC School today.</p></div>
+          <div class="welcome-actions"><div class="date-chip" id="todayDate">Today</div><button class="btn" id="addStudentBtn">＋ Add student</button></div>
+        </div>
+        <div class="stat-grid">
+          <article class="stat-card"><div class="stat-head"><span class="stat-label">Total students</span><span class="stat-icon ic-blue">♙</span></div><div class="stat-value" id="totalStudents">248</div><div class="stat-foot"><span class="up">↗ 8.2%</span> <span>compared to last term</span></div></article>
+          <article class="stat-card"><div class="stat-head"><span class="stat-label">Today's attendance</span><span class="stat-icon ic-teal">◷</span></div><div class="stat-value">94.6%</div><div class="stat-foot"><span class="up">↑ 2.4%</span> <span>from last Monday</span></div></article>
+          <article class="stat-card"><div class="stat-head"><span class="stat-label">Fees collected</span><span class="stat-icon ic-gold">₹</span></div><div class="stat-value">₹8.42L</div><div class="stat-foot"><span class="up">↗ 12.5%</span> <span>this month</span></div></article>
+          <article class="stat-card"><div class="stat-head"><span class="stat-label">Teaching staff</span><span class="stat-icon ic-green">♧</span></div><div class="stat-value">32</div><div class="stat-foot"><span class="down">2 pending</span> <span>leave requests</span></div></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <section class="panel">
+            <div class="panel-header"><div><h3 class="panel-title">Attendance overview</h3><div class="panel-subtitle">Student attendance across the week</div></div><select class="select-small" id="chartPeriod" aria-label="Chart period"><option value="week">This week</option><option value="last">Last week</option></select></div>
+            <div class="chart-wrap">
+              <div class="chart-legend"><span><i class="legend-dot" style="background:#4169e1"></i>Present</span><span><i class="legend-dot" style="background:#16a6a1"></i>Expected</span></div>
+              <svg class="chart" viewBox="0 0 620 230" role="img" aria-label="Line chart comparing daily student attendance">
+                <defs><linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stop-color="#4169e1" stop-opacity=".20"/><stop offset="100%" stop-color="#4169e1" stop-opacity="0"/></linearGradient></defs>
+                <line class="gridline" x1="45" y1="24" x2="600" y2="24"/><line class="gridline" x1="45" y1="68" x2="600" y2="68"/><line class="gridline" x1="45" y1="112" x2="600" y2="112"/><line class="gridline" x1="45" y1="156" x2="600" y2="156"/><line class="gridline" x1="45" y1="200" x2="600" y2="200"/>
+                <text x="7" y="28">100%</text><text x="13" y="72">95%</text><text x="13" y="116">90%</text><text x="13" y="160">85%</text><text x="13" y="204">80%</text>
+                <path class="area" d="M55 92 L145 72 L235 84 L325 50 L415 62 L505 42 L590 58 L590 200 L55 200 Z"/>
+                <polyline class="line-a" points="55,92 145,72 235,84 325,50 415,62 505,42 590,58"/><polyline class="line-b" points="55,78 145,78 235,78 325,78 415,78 505,78 590,78"/>
+                <g fill="#4169e1" stroke="white" stroke-width="3"><circle cx="55" cy="92" r="5"/><circle cx="145" cy="72" r="5"/><circle cx="235" cy="84" r="5"/><circle cx="325" cy="50" r="5"/><circle cx="415" cy="62" r="5"/><circle cx="505" cy="42" r="5"/><circle cx="590" cy="58" r="5"/></g>
+                <text x="45" y="222">Mon</text><text x="135" y="222">Tue</text><text x="225" y="222">Wed</text><text x="315" y="222">Thu</text><text x="405" y="222">Fri</text><text x="495" y="222">Sat</text><text x="580" y="222">Sun</text>
+              </svg>
+            </div>
+            <div class="attendance-summary"><div class="mini-stat"><span>Average attendance</span><b id="averageAttendance">94.6% <em>+2.4%</em></b></div><div class="mini-stat"><span>Students present today</span><b id="presentToday">235 <em>of 248</em></b></div></div>
+          </section>
+          <section class="panel">
+            <div class="panel-header"><div><h3 class="panel-title">Today's schedule</h3><div class="panel-subtitle">Events and reminders</div></div><button class="btn secondary small" id="viewCalendarBtn">View calendar ↗</button></div>
+            <div class="schedule-list">
+              <div class="schedule-item"><div class="schedule-time">08:30</div><div class="schedule-mark">🏫</div><div class="schedule-info"><b>Morning assembly</b><span>Main courtyard · All classes</span></div><span class="pill green">Done</span></div>
+              <div class="schedule-item"><div class="schedule-time">10:15</div><div class="schedule-mark">🧪</div><div class="schedule-info"><b>Science lab session</b><span>Lab 02 · Grade 8</span></div><span class="pill blue">Upcoming</span></div>
+              <div class="schedule-item"><div class="schedule-time">12:00</div><div class="schedule-mark">👥</div><div class="schedule-info"><b>Parent-teacher meeting</b><span>Conference room · Grade 5</span></div><span class="pill gold">Today</span></div>
+              <div class="schedule-item"><div class="schedule-time">14:30</div><div class="schedule-mark">🏆</div><div class="schedule-info"><b>Sports practice</b><span>School ground · Team A</span></div><span class="pill blue">Upcoming</span></div>
+            </div>
+          </section>
+        </div>
+
+        <section class="panel table-panel">
+          <div class="table-tools"><div class="table-title-wrap"><h3>Student directory</h3><p>Quick view of enrolled students · Sample data</p></div><div class="tools-right"><div class="search-box"><span>⌕</span><input id="studentSearch" type="search" placeholder="Search students..." aria-label="Search students"></div><select class="filter-select" id="gradeFilter" aria-label="Filter by class"><option value="all">All classes</option><option>Grade 5</option><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option></select><button class="btn secondary small" id="exportBtn">⇩ Export CSV</button></div></div>
+          <div class="table-scroll"><table><thead><tr><th>Student</th><th>Student ID</th><th>Class</th><th>Attendance</th><th>Fee status</th><th>Actions</th></tr></thead><tbody id="studentRows"></tbody></table><div class="empty-state" id="emptyState" hidden>No students match your search.</div></div>
+          <div class="table-footer"><span id="resultsLabel">Showing 6 of 248 students</span><div class="pagination"><button class="page-btn" id="prevPage" aria-label="Previous page">‹</button><button class="page-btn active" id="pageOne">1</button><button class="page-btn" id="nextPage" aria-label="Next page">›</button></div></div>
+        </section>
+      </section>
+
+      <section class="section-view" id="view-students"><div class="welcome"><div><h2>Student directory</h2><p>Search, filter and add sample student records.</p></div><button class="btn" id="addStudentBtn2">＋ Add student</button></div><div class="panel table-panel"><div class="table-tools"><div class="table-title-wrap"><h3>All students</h3><p>Records held in this page's temporary browser state only.</p></div><div class="tools-right"><div class="search-box"><span>⌕</span><input id="studentSearch2" type="search" placeholder="Search students..." aria-label="Search students"></div></div></div><div class="table-scroll"><table><thead><tr><th>Student</th><th>Student ID</th><th>Class</th><th>Attendance</th><th>Fee status</th><th>Actions</th></tr></thead><tbody id="studentRows2"></tbody></table><div class="empty-state" id="emptyState2" hidden>No students match your search.</div></div><div class="table-footer"><span id="resultsLabel2">Showing sample records</span></div></div></section>
+
+      <section class="section-view" id="view-attendance"><div class="welcome"><div><h2>Attendance centre</h2><p>Daily attendance snapshot by class.</p></div><div class="date-chip" id="attendanceDate"></div></div><div class="stat-grid"><article class="stat-card"><div class="stat-label">Present</div><div class="stat-value">235</div><div class="stat-foot">94.6% of enrolled students</div></article><article class="stat-card"><div class="stat-label">Absent</div><div class="stat-value">9</div><div class="stat-foot">4 students have approved leave</div></article><article class="stat-card"><div class="stat-label">Late arrivals</div><div class="stat-value">4</div><div class="stat-foot">Awaiting class teacher check-in</div></article><article class="stat-card"><div class="stat-label">Attendance pending</div><div class="stat-value">2</div><div class="stat-foot">Classes not yet submitted</div></article></div><div class="panel"><div class="panel-header"><div><h3 class="panel-title">Class attendance summary</h3><div class="panel-subtitle">Illustrative figures for the demo dashboard</div></div></div><div class="schedule-list"><div class="schedule-item"><div class="schedule-mark">5</div><div class="schedule-info"><b>Grade 5</b><span>38 of 40 students present</span></div><span class="pill green">95%</span></div><div class="schedule-item"><div class="schedule-mark">6</div><div class="schedule-info"><b>Grade 6</b><span>34 of 36 students present</span></div><span class="pill green">94.4%</span></div><div class="schedule-item"><div class="schedule-mark">7</div><div class="schedule-info"><b>Grade 7</b><span>41 of 43 students present</span></div><span class="pill green">95.3%</span></div><div class="schedule-item"><div class="schedule-mark">8</div><div class="schedule-info"><b>Grade 8</b><span>35 of 38 students present</span></div><span class="pill gold">92.1%</span></div></div></div></section>
+
+      <section class="section-view" id="view-academics"><div class="coming-soon"><div class="big-icon">📚</div><h2>Academics workspace</h2><p>Manage classes, subjects, examinations and timetables. This is a frontend demonstration; records are not connected to a school database.</p><button class="btn" data-demo="Academic timetable">Explore timetable</button></div></section>
+      <section class="section-view" id="view-fees"><div class="coming-soon"><div class="big-icon">💳</div><h2>Fees & payments</h2><p>Review a sample fee collection summary and pending balances. No real payments are processed.</p><button class="btn" data-demo="Fee summary">View fee summary</button></div></section>
+      <section class="section-view" id="view-staff"><div class="coming-soon"><div class="big-icon">🧑‍🏫</div><h2>Staff workspace</h2><p>Staff profiles, leave requests and payroll tools could be added here in the frontend. Secure backend services would be required for real data.</p><button class="btn" data-demo="Staff directory">View sample staff</button></div></section>
+      <section class="section-view" id="view-reports"><div class="coming-soon"><div class="big-icon">📊</div><h2>Reports & analytics</h2><p>Explore school performance indicators, attendance trends and fee summaries in a future connected version.</p><button class="btn" id="reportExportBtn">Export student sample CSV</button></div></section>
+      <section class="section-view" id="view-settings"><div class="coming-soon"><div class="big-icon">⚙️</div><h2>Workspace settings</h2><p>Configure school details, academic year and preferences. These demo settings are not persisted to a server.</p><button class="btn" id="settingsThemeBtn">Toggle display theme</button></div></section>
+    </div>
+  </main>
+</div>
+
+<div class="modal-backdrop" id="studentModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal"><div class="modal-head"><h2 id="modalTitle">Add a student</h2><button class="modal-close" id="closeModal" aria-label="Close dialog">×</button></div>
+    <form id="studentForm" class="modal-form">
+      <div class="field full"><label for="newName">Student full name</label><input id="newName" name="name" required maxlength="80" placeholder="e.g. Ananya Sharma"></div>
+      <div class="field"><label for="newId">Student ID</label><input id="newId" name="studentId" required maxlength="20" placeholder="ABC-0249"></div>
+      <div class="field"><label for="newGrade">Class</label><select id="newGrade" name="grade" required><option value="">Select class</option><option>Grade 5</option><option>Grade 6</option><option>Grade 7</option><option>Grade 8</option><option>Grade 9</option></select></div>
+      <div class="field"><label for="newAttendance">Attendance</label><select id="newAttendance" name="attendance"><option>Present</option><option>Absent</option><option>Late</option></select></div>
+      <div class="field"><label for="newFee">Fee status</label><select id="newFee" name="fee"><option>Paid</option><option>Pending</option><option>Partial</option></select></div>
+      <div class="modal-actions"><button type="button" class="btn secondary" id="cancelModal">Cancel</button><button type="submit" class="btn">Add student</button></div>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"><strong id="toastTitle">Done</strong><span id="toastMessage">This is a demonstration.</span></div>
+
+<script>
+(() => {
+  const $ = (s, root=document) => root.querySelector(s);
+  const $$ = (s, root=document) => [...root.querySelectorAll(s)];
+  const sampleStudents = [
+    {name:'Ananya Sharma', id:'ABC-0243', grade:'Grade 5', attendance:98, fee:'Paid', initials:'AS', color:'#e4eaff'},
+    {name:'Arjun Menon', id:'ABC-0244', grade:'Grade 8', attendance:92, fee:'Pending', initials:'AM', color:'#dff6ef'},
+    {name:'Diya Patel', id:'ABC-0245', grade:'Grade 6', attendance:96, fee:'Paid', initials:'DP', color:'#fff0d8'},
+    {name:'Ishaan Reddy', id:'ABC-0246', grade:'Grade 7', attendance:88, fee:'Partial', initials:'IR', color:'#f5e4ff'},
+    {name:'Meera Nair', id:'ABC-0247', grade:'Grade 9', attendance:99, fee:'Paid', initials:'MN', color:'#dff2ff'},
+    {name:'Rahul Verma', id:'ABC-0248', grade:'Grade 5', attendance:91, fee:'Pending', initials:'RV', color:'#ffe4e7'}
+  ];
+  // Demo records only: these changes exist in this browser session and are not saved to a shared database.
+  let students = [...sampleStudents];
+  let toastTimer;
+  const titleMap = {overview:'Dashboard overview',students:'Student directory',attendance:'Attendance centre',academics:'Academics workspace',fees:'Fees & payments',staff:'Staff workspace',reports:'Reports & analytics',settings:'Workspace settings'};
+  const fmtDate = new Intl.DateTimeFormat('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  $('#todayDate').textContent = fmtDate.format(new Date());
+  $('#attendanceDate').textContent = fmtDate.format(new Date());
+
+  function notify(title, message) {
+    clearTimeout(toastTimer); $('#toastTitle').textContent=title; $('#toastMessage').textContent=message;
+    $('#toast').classList.add('show'); toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),3600);
+  }
+  function feePill(fee){return fee==='Paid'?'green':fee==='Pending'?'red':'gold'}
+  function filteredStudents(searchId, gradeId) {
+    const q = ($(searchId)?.value || '').trim().toLowerCase();
+    const grade = $(gradeId)?.value || 'all';
+    return students.filter(s => (grade==='all'||s.grade===grade) && [s.name,s.id,s.grade,s.fee,s.attendance+'%'].some(v=>String(v).toLowerCase().includes(q)));
+  }
+  function drawRows(tbodyId, emptyId, labelId, searchId, gradeId) {
+    const rows = filteredStudents(searchId,gradeId), tbody=$(tbodyId);
+    tbody.innerHTML='';
+    rows.forEach((s,index)=>{
+      const tr=document.createElement('tr');
+      const studentTd=document.createElement('td');
+      const cell=document.createElement('div');cell.className='student-cell';
+      const avatar=document.createElement('div');avatar.className='student-avatar';avatar.textContent=s.initials;avatar.style.background=s.color;
+      const nameBox=document.createElement('div');nameBox.className='student-name';
+      const name=document.createElement('b');name.textContent=s.name;const sub=document.createElement('span');sub.textContent='Student profile';nameBox.append(name,sub);cell.append(avatar,nameBox);studentTd.append(cell);
+      const idTd=document.createElement('td');idTd.textContent=s.id;
+      const gradeTd=document.createElement('td');gradeTd.textContent=s.grade;
+      const attTd=document.createElement('td');const bar=document.createElement('span');bar.className='attendance-bar';const barFill=document.createElement('span');barFill.style.width=Math.max(0,Math.min(100,s.attendance))+'%';bar.append(barFill);const attText=document.createElement('span');attText.textContent=s.attendance+'%';attTd.append(bar,attText);
+      const feeTd=document.createElement('td');const pill=document.createElement('span');pill.className='pill '+feePill(s.fee);pill.textContent=s.fee;feeTd.append(pill);
+      const actionTd=document.createElement('td');const action=document.createElement('button');action.className='row-action';action.textContent='•••';action.setAttribute('aria-label','View '+s.name);action.addEventListener('click',()=>notify(s.name,`${s.id} · ${s.grade} · Fee status: ${s.fee}. Demo record only.`));actionTd.append(action);
+      tr.append(studentTd,idTd,gradeTd,attTd,feeTd,actionTd);tbody.append(tr);
+    });
+    $(emptyId).hidden=rows.length>0;
+    $(labelId).textContent=`Showing ${rows.length} sample record${rows.length===1?'':'s'} of ${students.length} loaded in this browser`;
+  }
+  function renderTables(){
+    drawRows('#studentRows','#emptyState','#resultsLabel','#studentSearch','#gradeFilter');
+    drawRows('#studentRows2','#emptyState2','#resultsLabel2','#studentSearch2',null);
+    $('#totalStudents').textContent=248+(students.length-sampleStudents.length); $('#navStudentCount').textContent=248+(students.length-sampleStudents.length);
+    $('#presentToday').innerHTML=`${235+(students.length-sampleStudents.length)} <em>of ${248+(students.length-sampleStudents.length)}</em>`;
+  }
+  renderTables();
+  $$('.nav-item').forEach(btn=>btn.addEventListener('click',()=>{
+    const view=btn.dataset.view;
+    $$('.nav-item').forEach(b=>b.classList.toggle('active',b===btn));
+    $$('.section-view').forEach(section=>section.classList.toggle('active',section.id==='view-'+view));
+    $('#pageTitle').textContent=titleMap[view]||'School workspace';$('#crumbText').textContent=titleMap[view]||'Workspace';
+    if(view==='students')renderTables();
+  }));
+  $('#studentSearch').addEventListener('input',renderTables);$('#gradeFilter').addEventListener('change',renderTables);
+  $('#studentSearch2').addEventListener('input',renderTables);
+  $('#chartPeriod').addEventListener('change',e=>{
+    if(e.target.value==='last'){ $('#averageAttendance').innerHTML='92.2% <em>+1.1%</em>';notify('Chart updated','Showing illustrative figures for last week.'); }
+    else { $('#averageAttendance').innerHTML='94.6% <em>+2.4%</em>';notify('Chart updated','Showing illustrative figures for this week.'); }
+  });
+  const modal=$('#studentModal');
+  function openModal(){modal.classList.add('open');setTimeout(()=>$('#newName').focus(),50)}
+  function closeModal(){modal.classList.remove('open');$('#studentForm').reset()}
+  $('#addStudentBtn').addEventListener('click',openModal);$('#addStudentBtn2').addEventListener('click',openModal);$('#closeModal').addEventListener('click',closeModal);$('#cancelModal').addEventListener('click',closeModal);
+  modal.addEventListener('click',e=>{if(e.target===modal)closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+  $('#studentForm').addEventListener('submit',e=>{
+    e.preventDefault();const data=new FormData(e.currentTarget);const name=String(data.get('name')).trim(),id=String(data.get('studentId')).trim().toUpperCase();
+    if(students.some(s=>s.id.toLowerCase()===id.toLowerCase())){notify('Student ID already exists','Choose a unique ID for this demo record.');return;}
+    const colors=['#e4eaff','#dff6ef','#fff0d8','#f5e4ff','#dff2ff','#ffe4e7'];
+    students.unshift({name,id,grade:String(data.get('grade')),attendance:data.get('attendance')==='Present'?100:data.get('attendance')==='Late'?85:0,fee:String(data.get('fee')),initials:name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase(),color:colors[Math.floor(Math.random()*colors.length)]});
+    closeModal();renderTables();notify('Student added',`${name} was added to this page's temporary demo data.`);
+  });
+  function exportCsv(){
+    const rows=[['Name','Student ID','Class','Attendance','Fee status'],...students.map(s=>[s.name,s.id,s.grade,s.attendance+'%',s.fee])];
+    const csv=rows.map(row=>row.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');
+    const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));const a=document.createElement('a');a.href=url;a.download='abc-school-students-demo.csv';document.body.append(a);a.click();a.remove();URL.revokeObjectURL(url);notify('CSV exported','The currently loaded demo records were downloaded.');
+  }
+  $('#exportBtn').addEventListener('click',exportCsv);$('#reportExportBtn').addEventListener('click',exportCsv);
+  $('#notificationBtn').addEventListener('click',()=>notify('Notifications','2 leave requests are awaiting review. This is sample dashboard information.'));
+  $('#viewCalendarBtn').addEventListener('click',()=>notify("Today's calendar",'Assembly, science lab, parent-teacher meeting and sports practice are sample events.'));
+  $$('[data-demo]').forEach(b=>b.addEventListener('click',()=>notify(b.dataset.demo,'This is a frontend-only demonstration. Add a backend to load real school data.')));
+  let dark=false;
+  function toggleTheme(){dark=!dark;document.body.style.background=dark?'#111a2a':'var(--paper)';document.body.style.color=dark?'#e5eaf3':'var(--ink)';$$('.panel,.stat-card,.topbar,.contact-card,.feature-card').forEach(el=>{el.style.background=dark?'#1c2940':'';el.style.color=dark?'#e5eaf3':'';el.style.borderColor=dark?'#30405b':''});$$('.panel-title,.stat-value,.table-title-wrap h3,.topbar h1').forEach(el=>el.style.color=dark?'#f0f4ff':'');$('#themeBtn').textContent=dark?'☾':'☼';notify('Display theme',dark?'Dark display preview enabled.':'Light display preview enabled.');}
+  $('#themeBtn').addEventListener('click',toggleTheme);$('#settingsThemeBtn').addEventListener('click',toggleTheme);
+})();
+</script>
+</body>
+</html>
