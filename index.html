@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ABC School — Learn, Grow, Shine. Enquire about admissions today.">
+  <title>ABC School | Learn, Grow, Shine</title>
+
+  <style>
+    :root {
+      --navy: #123b5d;
+      --blue: #1769aa;
+      --gold: #ffca55;
+      --light: #eef7ff;
+      --text: #263b4b;
+      --muted: #667b8b;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1100px, 90%);
+      margin: auto;
+    }
+
+    /* Navigation */
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: var(--white);
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--navy);
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .logo-icon {
+      background: var(--gold);
+      width: 46px;
+      height: 46px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      font-size: 25px;
+    }
+
+    .logo small {
+      display: block;
+      font-size: 11px;
+      letter-spacing: 2px;
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .nav-links a {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .menu-button {
+      display: none;
+      padding: 8px 12px;
+      background: white;
+      border: 1px solid #ccd9e2;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    /* Buttons */
+
+    .button {
+      display: inline-block;
+      padding: 13px 22px;
+      border-radius: 30px;
+      background: var(--blue);
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .button:hover {
+      transform: translateY(-2px);
+      opacity: 0.92;
+    }
+
+    .button-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .button-outline {
+      background: transparent;
+      color: var(--navy);
+      border: 1px solid #b9cbd8;
+    }
+
+    /* Hero section */
+
+    .hero {
+      background:
+        radial-gradient(circle at 85% 15%, #ffedbd 0, transparent 25%),
+        linear-gradient(135deg, var(--light), white);
+      padding: 85px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: center;
+      gap: 50px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      padding: 7px 14px;
+      border-radius: 30px;
+      background: #dcefff;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      color: var(--navy);
+      font-size: clamp(38px, 5vw, 65px);
+      line-height: 1.1;
+      letter-spacing: -2px;
+      margin: 22px 0;
+    }
+
+    h1 span {
+      color: var(--blue);
+    }
+
+    .hero-description {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 570px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .hero-visual {
+      min-height: 360px;
+      background: linear-gradient(145deg, var(--blue), var(--navy));
+      border-radius: 28px;
+      display: grid;
+      place-items: center;
+      padding: 25px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card {
+      max-width: 350px;
+      width: 100%;
+      background: white;
+      border-radius: 22px;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .hero-emoji {
+      background: #fff2c8;
+      border-radius: 16px;
+      padding: 25px;
+      font-size: 75px;
+      margin-bottom: 18px;
+    }
+
+    .hero-card h2 {
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .hero-card p {
+      color: var(--muted);
+    }
+
+    .floating-label {
+      position: absolute;
+      background: var(--gold);
+      color: var(--navy);
+      border-radius: 12px;
+      padding: 10px 14px;
+      font-weight: bold;
+      font-size: 13px;
+      z-index: 2;
+    }
+
+    .label-one {
+      top: 20px;
+      left: 15px;
+    }
+
+    .label-two {
+      bottom: 20px;
+      right: 15px;
+    }
+
+    /* Highlights */
+
+    .highlights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      padding-top: 35px;
+      padding-bottom: 35px;
+    }
+
+    .highlight {
+      padding: 22px;
+      background: white;
+      border: 1px solid #e0e8ee;
+      border-radius: 16px;
+    }
+
+    .highlight h3 {
+      color: var(--navy);
+      font-size: 17px;
+      margin-bottom: 5px;
+    }
+
+    .highlight p {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    /* General sections */
+
+    section.content-section {
+      padding: 80px 0;
+    }
+
+    .section-heading {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 40px;
+    }
+
+    .section-heading h2 {
+      color: var(--navy);
+      font-size: clamp(28px, 4vw, 42px);
+      line-height: 1.2;
+      margin: 15px 0;
+    }
+
+    .section-heading p {
+      color: var(--muted);
+    }
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .feature-card {
+      padding: 28px;
+      border: 1px solid #e0e8ee;
+      border-radius: 20px;
+      background: white;
+      transition: 0.2s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(18, 59, 93, 0.08);
+    }
+
+    .feature-icon {
+      width: 55px;
+      height: 55px;
+      display: grid;
+      place-items: center;
+      background: var(--light);
+      border-radius: 15px;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    /* Admissions */
+
+    .admissions {
+      background: #f6f9fc;
+    }
+
+    .admissions-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 45px;
+      align-items: start;
+    }
+
+    .admissions-info h2 {
+      color: var(--navy);
+      font-size: clamp(30px, 4vw, 43px);
+      line-height: 1.15;
+      margin: 18px 0;
+    }
+
+    .admissions-info p {
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .check-list {
+      list-style: none;
+      margin: 22px 0;
+    }
+
+    .check-list li {
+      margin-bottom: 12px;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      color: #168047;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+
+    .contact-card {
+      background: white;
+      border: 1px solid #e0e8ee;
+      border-radius: 22px;
+      padding: 30px;
+      box-shadow: 0 12px 35px rgba(18, 59, 93, 0.06);
+    }
+
+    .contact-card h3 {
+      color: var(--navy);
+      font-size: 25px;
+      margin-bottom: 8px;
+    }
+
+    .contact-card > p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+
+    .form-field {
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #cbd8e1;
+      border-radius: 10px;
+      font: inherit;
+      color: var(--text);
+      background: white;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid #b9ddfa;
+      border-color: var(--blue);
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .form-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
+    }
+
+    #formStatus {
+      color: var(--blue);
+      margin-top: 12px;
+      font-weight: bold;
+    }
+
+    /* Bottom call to action */
+
+    .cta {
+      padding: 65px 0;
+      background: var(--navy);
+      color: white;
+      text-align: center;
+    }
+
+    .cta h2 {
+      font-size: clamp(28px, 4vw, 42px);
+      margin-bottom: 12px;
+    }
+
+    .cta p {
+      color: #d4e5f1;
+      margin-bottom: 25px;
+    }
+
+    footer {
+      background: #0b293f;
+      color: #d4e5f1;
+      padding: 25px 0;
+      font-size: 14px;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    /* Mobile responsive layout */
+
+    @media (max-width: 800px) {
+      .hero-grid,
+      .admissions-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 60px 0;
+      }
+
+      .hero-visual {
+        min-height: 330px;
+      }
+
+      .features {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 76px;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 20px 5%;
+        flex-direction: column;
+        align-items: stretch;
+        border-top: 1px solid #e0e8ee;
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .menu-button {
+        display: block;
+      }
+    }
+
+    @media (max-width: 550px) {
+      .highlights,
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+      section.content-section {
+        padding: 60px 0;
+      }
+
+      .contact-card {
+        padding: 22px;
+      }
+
+      .hero-buttons .button {
+        width: 100%;
+        text-align: center;
+      }
+
+      .footer-content {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <nav class="container">
+      <a class="logo" href="#home">
+        <span class="logo-icon">A</span>
+        <span>
+          ABC SCHOOL
+          <small>LEARN · GROW · SHINE</small>
+        </span>
+      </a>
+
+      <button
+        class="menu-button"
+        id="menuButton"
+        aria-expanded="false"
+        aria-controls="navLinks"
+      >
+        ☰ Menu
+      </button>
+
+      <div class="nav-links" id="navLinks">
+        <a href="#about">About</a>
+        <a href="#highlights">Why ABC?</a>
+        <a href="#admissions">Admissions</a>
+        <a href="#admissions" class="button">Enquire Now</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+
+        <div>
+          <span class="eyebrow">A brighter future starts here</span>
+
+          <h1>
+            Big dreams begin with
+            <span>great learning.</span>
+          </h1>
+
+          <p class="hero-description">
+            At ABC School, every child is encouraged to explore curiosity,
+            discover their strengths, and grow with confidence in a caring
+            learning environment.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#admissions" class="button button-gold">
+              Enquire About Admissions →
+            </a>
+
+            <a href="#about" class="button button-outline">
+              Discover Our School
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <span class="floating-label label-one">Curiosity ✨</span>
+
+          <div class="hero-card">
+            <div class="hero-emoji">📚🎓</div>
+            <h2>Learn With Purpose</h2>
+            <p>
+              Build knowledge. Grow character.
+              Explore possibilities.
+            </p>
+          </div>
+
+          <span class="floating-label label-two">
+            Your future starts here!
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+    <div class="container highlights">
+      <div class="highlight">
+        <h3>Child-centred Learning</h3>
+        <p>Encouraging questions, creativity and discovery.</p>
+      </div>
+
+      <div class="highlight">
+        <h3>Whole-child Development</h3>
+        <p>Learning, confidence and personal growth.</p>
+      </div>
+
+      <div class="highlight">
+        <h3>Family Partnership</h3>
+        <p>Working together to support every learner.</p>
+      </div>
+    </div>
+
+    <section class="content-section" id="about">
+      <div class="container">
+
+        <div class="section-heading">
+          <span class="eyebrow">Welcome to ABC</span>
+
+          <h2>A place to learn, belong and thrive.</h2>
+
+          <p>
+            We aim to create a positive school experience where students
+            develop strong foundations, meaningful friendships, and a
+            lifelong love of learning.
+          </p>
+        </div>
+
+        <div class="features" id="highlights">
+
+          <article class="feature-card">
+            <div class="feature-icon">💡</div>
+            <h3>Learning Through Curiosity</h3>
+            <p>
+              Encourage students to ask questions, explore ideas and connect
+              classroom learning with the world around them.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🌱</div>
+            <h3>Room to Grow</h3>
+            <p>
+              Support personal growth, positive habits, teamwork and respect
+              for others in a welcoming environment.
+            </p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🎨</div>
+            <h3>Beyond the Classroom</h3>
+            <p>
+              Make room for creativity, activities, communication and
+              discovering individual strengths.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section admissions" id="admissions">
+      <div class="container admissions-grid">
+
+        <div class="admissions-info">
+          <span class="eyebrow">Admissions Enquiries</span>
+
+          <h2>Take the first step towards their future.</h2>
+
+          <p>
+            Interested in ABC School? Send an enquiry to learn more about
+            the admission process.
+          </p>
+
+          <ul class="check-list">
+            <li>Ask about classes and eligibility.</li>
+            <li>Learn about the admission process.</li>
+            <li>Arrange a school visit with the team.</li>
+          </ul>
+
+          <p>
+            <strong>School address:</strong>
+            Add the verified school address here.
+          </p>
+
+          <p>
+            <strong>Email:</strong>
+            <a href="mailto:admissions@example.com">
+              admissions@example.com
+            </a>
+          </p>
+
+          <p>
+            <strong>Phone:</strong>
+            <a href="tel:+910000000000">+91 00000 00000</a>
+          </p>
+        </div>
+
+        <div class="contact-card">
+          <h3>Request an Admission Call</h3>
+
+          <p>
+            Complete the form to test the page. This demo does not send
+            or save your information.
+          </p>
+
+          <form id="enquiryForm">
+            <div class="form-field">
+              <label for="parentName">Parent / Guardian Name</label>
+              <input
+                type="text"
+                id="parentName"
+                name="parentName"
+                autocomplete="name"
+                placeholder="Enter your name"
+                required
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="phone">Phone Number</label>
+              <input
+                type="tel"
+                id="phone"
+                name="phone"
+                autocomplete="tel"
+                placeholder="Enter your phone number"
+                required
+              >
+            </div>
+
+            <div class="form-field">
+              <label for="classLevel">Class of Interest</label>
+
+              <select id="classLevel" name="classLevel" required>
+                <option value="">Choose a class</option>
+                <option>Pre-KG</option>
+                <option>LKG</option>
+                <option>UKG</option>
+                <option>Classes 1–5</option>
+                <option>Classes 6–8</option>
+                <option>Classes 9–12</option>
+              </select>
+            </div>
+
+            <div class="form-field">
+              <label for="message">Message (Optional)</label>
+              <textarea
+                id="message"
+                name="message"
+                placeholder="What would you like to know?"
+              ></textarea>
+            </div>
+
+            <button type="submit" class="button">
+              Submit Demo Enquiry →
+            </button>
+
+            <p class="form-note">
+              Demo only: no information leaves your browser. Connect a
+              secure form service before using this form for real enquiries.
+            </p>
+
+            <p id="formStatus" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="cta">
+      <div class="container">
+        <h2>Every great journey starts with a first step.</h2>
+
+        <p>
+          Connect with ABC School to learn more about admissions.
+        </p>
+
+        <a href="#admissions" class="button button-gold">
+          Start an Enquiry →
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-content">
+      <span>
+        © <span id="year"></span> ABC School. All rights reserved.
+      </span>
+
+      <span>
+        Made for learning, growth and brighter possibilities.
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    const menuButton = document.getElementById("menuButton");
+    const navLinks = document.getElementById("navLinks");
+
+    menuButton.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+
+      menuButton.setAttribute("aria-expanded", String(isOpen));
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        menuButton.setAttribute("aria-expanded", "false");
+      });
+    });
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    document.getElementById("enquiryForm").addEventListener(
+      "submit",
+      (event) => {
+        event.preventDefault();
+
+        const name = document.getElementById("parentName").value.trim();
+
+        document.getElementById("formStatus").textContent =
+          `Thank you${name ? ", " + name : ""}! This demo form has not sent or saved your enquiry.`;
+      }
+    );
+  </script>
+
+</body>
+</html>
